@@ -7,7 +7,7 @@
     <!-- Hero -->
     <section class="border-b">
       <div
-        class="mx-auto max-w-7xl px-6 py-20 md:py-24"
+        class="mx-auto max-w-7xl px-6 py-10"
       >
         <p
           class="mb-4 inline-block rounded-full border px-3

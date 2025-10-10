@@ -1,130 +1,51 @@
 import axios from "axios";
 
+// TODO: Export constants for token management
+// Hint: You'll need TOKEN_TYPE, ACCESS_TOKEN, AUTH_HEADER
 export const TOKEN_TYPE = "Bearer";
 export const ACCESS_TOKEN = "accessToken";
 export const AUTH_HEADER = "Authorization";
 
+// TODO: Setup base URL from environment variable
 const baseUrl = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}` : "/api";
 
+// TODO: Create axios instance with base configuration
 const request = axios.create({
   baseURL: baseUrl,
-});
-const refreshTokenIns = axios.create({
-  baseURL: baseUrl,
+  // TODO: Add other default configurations if needed
 });
 
-refreshTokenIns.interceptors.request.use(
+// TODO: Add request interceptor to automatically include auth token
+request.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    // TODO: Get access token from localStorage
 
-    if (accessToken) {
-      const headers = config?.headers ?? {};
-      if (headers) {
-        config.headers = {
-          [AUTH_HEADER]: `${TOKEN_TYPE} ${accessToken}`,
-          ...config.headers,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any;
-      }
-    }
+    // TODO: Add token to headers if it exists
+
     return config;
   },
   (error) => {
-    Promise.reject(error).then();
+    // TODO: Handle request errors
+    return Promise.reject(error);
   },
 );
 
-request.interceptors.request.use(
-  (config) => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
-
-    if (accessToken) {
-      const headers = config?.headers ?? {};
-      if (headers) {
-        config.headers = {
-          [AUTH_HEADER]: `${TOKEN_TYPE} ${accessToken}`,
-          ...config.headers,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any;
-      }
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
+// TODO: Add response interceptor for error handling
 request.interceptors.response.use(
-  (response) => response,
-  // eslint-disable-next-line require-await
-  async (error) => {
-    const { config, response } = error;
-    const originalRequest = config;
+  (response) => {
+    // TODO: Handle successful responses
+    return response;
+  },
+  (error) => {
+    // TODO: Handle different types of errors
+    // const { response } = error;
 
-    if (originalRequest.url === "/auth/login" && response.status === 401) {
-      throw new Error(
-        JSON.stringify({
-          message: "Invalid credentials",
-          status: 401,
-        }),
-      );
-    }
+    // TODO: Handle 401 Unauthorized errors
 
-    if (originalRequest.url === "/auth/password" && response.status === 401) {
-      throw new Error(
-        JSON.stringify({
-          message: "Invalid credentials",
-          status: 401,
-        }),
-      );
-    }
+    // TODO: Handle other common errors (403, 404, 500, etc.)
 
-    if (axios.isCancel(error)) {
-      throw new Error(
-        JSON.stringify({
-          message: "canceled",
-          status: "canceled",
-        }),
-      );
-    }
-
-    if (response?.status === 401) {
-      // if (!isRefreshing) {
-      //   isRefreshing = true;
-      //
-      //   return refreshTokenIns
-      //     .post("/auth/refresh", {}, { withCredentials: true })
-      //     .then((resp) => {
-      //       if (resp?.status === 201) {
-      //         const newAccessToken = resp?.data?.access_token;
-      //         localStorage.setItem(ACCESS_TOKEN, newAccessToken);
-      //         request.defaults.headers.common[AUTH_HEADER] =
-      //                           `${ACCESS_TOKEN} ${newAccessToken}`;
-      //         originalRequest.headers[AUTH_HEADER] =
-      //                           `${TOKEN_TYPE} ${newAccessToken}`;
-      //         isRefreshing = false;
-      //         refreshQueue.forEach((resolve: () => void) => resolve());
-      //         refreshQueue = [];
-      //
-      //         return request(originalRequest);
-      //       }
-      //     })
-      //     .catch((resp) => {
-      //       console.error(resp);
-      //     });
-      // } else {
-      //   return new Promise((resolve) => {
-      //     refreshQueue.push(() => {
-      //       originalRequest.headers[AUTH_HEADER] =
-      //                       `${TOKEN_TYPE} ${localStorage.getItem(ACCESS_TOKEN)}`;
-      //       resolve(request(originalRequest));
-      //     });
-      //   });
-      // }
-    } else {
-      return Promise.reject(error);
-    }
+    return Promise.reject(error);
   },
 );
-
 
 export default request;
