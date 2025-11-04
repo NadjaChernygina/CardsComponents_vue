@@ -4,7 +4,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+            sans: ['"Spot Mono"', 'monospace'],
+              
             },
             spacing: {
                 18: '4.5rem',
