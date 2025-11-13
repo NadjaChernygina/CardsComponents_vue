@@ -15,7 +15,7 @@ defineProps({
   },
 });
 
-defineEmits(["update:modelValue", "blur"]);
+defineEmits(["update:modelValue"]);
 
 const variantClasses = {
   primary:
@@ -48,7 +48,6 @@ const variantClasses = {
         variantClasses[variant],
       ]"
       @input="$emit('update:modelValue', $event.target.value)"
-      @blur="$emit('blur')"
     >
 
     <!-- error text -->
