@@ -1,11 +1,16 @@
 <script setup>
+import VueFeather from "vue-feather";
 </script>
 
 <template>
   <div
-    class="bg-black text-white min-w-[10px] min-h-[10px]
-  p-2 rounded-[50%] flex items-center justify-center"
+    class="flex items-center justify-center p-2
+           rounded-full bg-black text-white"
   >
-    <div class="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin" />
+    <VueFeather
+      type="loader"
+      size="20"
+      class="animate-spin"
+    />
   </div>
 </template>

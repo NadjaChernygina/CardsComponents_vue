@@ -6,7 +6,7 @@ const routes: RouteRecordRaw[] = [
     name: "Home",
     component: () => import("@/pages/Home/index.vue"),
     meta: {
-      title: "Home - Vue 3 Starter",
+      title: "Home - slots",
     },
   },
   {

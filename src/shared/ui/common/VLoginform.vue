@@ -3,6 +3,21 @@ import { ref, computed } from "vue";
 
 import { VButton, VInput, VLoader } from "@/shared/ui/common";
 
+const props = defineProps({
+  emailErrorText: {
+    type: String,
+    default: "Invalid email format",
+  },
+  passwordErrorText: {
+    type: String,
+    default: "Password too short",
+  },
+  buttonText: {
+    type: String,
+    default: "Login",
+  },
+});
+
 const email = ref("");
 const password = ref("");
 const loading = ref(false);
@@ -13,8 +28,14 @@ const passwordTouched = ref(false);
 const emailValid = computed(() => /\S+@\S+\.\S+/.test(email.value));
 const passwordValid = computed(() => password.value.length >= 6);
 
+const formValid = computed(() => emailValid.value && passwordValid.value);
+
 const handleLogin = () => {
-  if (!emailValid.value || !passwordValid.value) return;
+  if (!formValid.value) {
+    emailTouched.value = true;
+    passwordTouched.value = true;
+    return;
+  }
 
   loading.value = true;
   setTimeout(() => {
@@ -28,19 +49,19 @@ const handleLogin = () => {
   <form class="flex flex-col gap-4 w-full max-w-sm mx-auto">
     <VInput
       v-model="email"
+      label="Username2"
       variant="primary"
       placeholder="Enter your email"
+      support-text="Email must contain at least @"
       @blur="emailTouched = true"
     >
-      <template #label>
-        Email
-      </template>
+      <template #support />
       <template #error>
         <span
           v-if="emailTouched && !emailValid"
           class="text-red-500"
         >
-          Invalid email format
+          {{ props.emailErrorText }}
         </span>
       </template>
     </VInput>
@@ -48,39 +69,37 @@ const handleLogin = () => {
     <VInput
       v-model="password"
       variant="primary"
+      label="Password2"
       placeholder="Enter your password"
       type="password"
+      support-text="Password must contain at least 6 characters"
       @blur="passwordTouched = true"
     >
-      <template #label>
-        Password
-      </template>
-
+      <template #support />
       <template #error>
         <span
           v-if="passwordTouched && !passwordValid"
           class="text-red-500"
-        >Password too short</span>
+        >
+          {{ props.passwordErrorText }}
+        </span>
       </template>
     </VInput>
 
     <VButton
       variant="primary"
-      :disabled="loading"
+      :loading="loading"
+      :disabled="!formValid || loading"
+      icon="log-in"
+      text="Login"
       @click.prevent="handleLogin"
     >
-      <template #icon>
-        <span class="text-lg">🔑</span>
-      </template>
-
       <template #text>
         <span v-if="!loading">Login</span>
         <span v-else>Loading...</span>
       </template>
 
-      <template #loader>
-        <VLoader v-if="loading" />
-      </template>
+      <VLoader v-if="loading" />
     </VButton>
   </form>
 </template>

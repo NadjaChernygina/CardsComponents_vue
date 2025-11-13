@@ -7,6 +7,8 @@ defineProps({
   placeholder: { type: String, default: "Enter text..." },
   errorText: { type: String, default: "" },
   type: { type: String, default: "text" },
+  label: { type: String, default: "" },
+  supportText: { type: String, default: "" },
   variant: {
     type: String,
     default: "primary", // primary | secondary | minimal
@@ -26,16 +28,18 @@ const variantClasses = {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1 w-full pb-6">
-    <!-- Label slot -->
+  <div class="flex flex-col gap-1 w-full pb-6 relative">
+    <!-- Label -->
     <label
-      v-if="$slots.label"
+      v-if="label || $slots.label"
       class="text-gray-700 dark:text-gray-200 font-medium"
     >
-      <slot name="label" />
+      <slot name="label">{{ label }}</slot>
     </label>
 
+    <!-- Input -->
     <input
+      v-bind="$attrs"
       :placeholder="placeholder"
       :value="modelValue"
       :type="type"
@@ -47,17 +51,31 @@ const variantClasses = {
       @blur="$emit('blur')"
     >
 
+    <!-- error text -->
     <p
       v-if="$slots.error"
-      class="text-red-500 text-sm"
+      class="text-red-500 text-sm absolute bottom-[0] left-[0]"
     >
       <slot name="error" />
     </p>
     <p
       v-else-if="errorText"
-      class="text-red-500 text-sm"
+      class="text-red-500 text-sm absolute bottom-[0] left-[0]"
     >
       {{ errorText }}
+    </p>
+
+    <!-- Support text -->
+    <p
+      v-else-if="$slots.support"
+      class="text-gray-500 text-sm"
+    >
+      <slot name="support" />
+    </p>
+    <p
+      class="text-gray-500 text-sm"
+    >
+      {{ supportText }}
     </p>
   </div>
 </template>

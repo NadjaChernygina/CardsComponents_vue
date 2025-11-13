@@ -1,4 +1,7 @@
 <script setup>
+import { ref, computed } from "vue";
+import VueFeather from "vue-feather";
+
 const variants = {
   primary: "bg-blue-600 text-white hover:bg-blue-900",
   secondary: "bg-gray-600 text-white hover:bg-gray-900",
@@ -6,36 +9,73 @@ const variants = {
   danger: "bg-red-600 text-white hover:bg-red-900",
 };
 
-defineProps({
+const props = defineProps({
   variant: {
     type: String,
     default: "primary",
   },
+  text: {
+    type: String,
+    default: "BUTTON",
+  },
+  icon: {
+    type: String,
+    default: "",
+  },
+  type: {
+    type: String,
+    default: "button",
+  },
 });
+
+const isLoading = ref(false);
+
+const handleClick = () => {
+  if (isLoading.value) return;
+  isLoading.value = true;
+
+  // просто симуляція якоїсь дії
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 2000);
+};
+const buttonDisabled = computed(() => [
+  props.loading ? "opacity-70 cursor-not-allowed" : "",
+]);
 </script>
 
 <template>
   <button
-    class="px-4 py-2 min-h-[48px] rounded-lg
-    font-semibold flex items-center justify-center gap-2 transition-all duration-200"
-    :class="[variants[variant]]"
+    :type="props.type"
+    :disabled="props.loading"
+    :class="[
+      // eslint-disable-next-line style/max-len
+      'px-4 py-2 min-h-[48px] rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-200',
+      variants[props.variant],
+      buttonDisabled
+    ]"
+    @click="handleClick"
   >
     <span
-      v-if="$slots.icon"
+      v-if="props.icon && !isLoading"
       class="flex items-center"
     >
-      <slot name="icon" />
-    </span>
-
-    <span>
-      <slot name="text">BUTTON</slot>
+      <VueFeather
+        :type="props.icon"
+        size="20"
+      />
     </span>
 
     <span
-      v-if="$slots.loader"
-      class="ml-2"
+      v-if="isLoading"
+      class="animate-spin flex items-center"
     >
-      <slot name="loader" />
+      <VueFeather
+        type="loader"
+        size="20"
+      />
     </span>
+
+    <span>{{ props.text }}</span>
   </button>
 </template>
