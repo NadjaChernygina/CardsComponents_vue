@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from "vue";
-import VueFeather from "vue-feather";
 
 const variants = {
   primary: "bg-blue-600 text-white hover:bg-blue-900",
@@ -61,7 +60,7 @@ const buttonDisabled = computed(() => [
       class="flex items-center"
     >
       <VueFeather
-        :type="props.icon"
+        type="heart"
         size="20"
       />
     </span>
