@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 
-import { VButton, VInput, VLoader } from "@/shared/ui/common";
+import { VButton, VInput, VLoader } from "@/shared/ui";
 
 const props = defineProps({
   emailErrorText: {
@@ -46,7 +46,10 @@ const handleLogin = () => {
 </script>
 
 <template>
-  <form class="flex flex-col gap-4 w-full max-w-sm mx-auto">
+  <form
+    class="flex flex-col gap-4 w-full max-w-sm mx-auto"
+    @submit.prevent="handleLogin"
+  >
     <VInput
       v-model="email"
       label="Username2"
@@ -92,7 +95,7 @@ const handleLogin = () => {
       :disabled="!formValid || loading"
       icon="log-in"
       text="Login"
-      @click.prevent="handleLogin"
+      type="submit"
     >
       <template #text>
         <span v-if="!loading">Login</span>

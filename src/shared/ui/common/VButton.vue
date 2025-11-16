@@ -21,9 +21,17 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  type: {
+  size: {
+    type: Number,
+    default: 20,
+  },
+  title: {
     type: String,
-    default: "button",
+    default: "",
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -33,7 +41,6 @@ const handleClick = () => {
   if (isLoading.value) return;
   isLoading.value = true;
 
-  // просто симуляція якоїсь дії
   setTimeout(() => {
     isLoading.value = false;
   }, 2000);
@@ -45,7 +52,8 @@ const buttonDisabled = computed(() => [
 
 <template>
   <button
-    :type="props.type"
+    v-bind="$attrs"
+    :title="props.title"
     :disabled="props.loading"
     :class="[
       // eslint-disable-next-line style/max-len
@@ -60,8 +68,8 @@ const buttonDisabled = computed(() => [
       class="flex items-center"
     >
       <VueFeather
-        type="heart"
-        size="20"
+        :type="props.icon"
+        :size="props.size"
       />
     </span>
 
@@ -71,7 +79,7 @@ const buttonDisabled = computed(() => [
     >
       <VueFeather
         type="loader"
-        size="20"
+        :size="props.size"
       />
     </span>
 

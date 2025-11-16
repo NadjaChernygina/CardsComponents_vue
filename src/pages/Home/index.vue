@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
 
-import Card from "@/pages/Home/components/Card.vue";
-import { VInput, VButton, VLoginform, VLoader } from "@/shared/ui/common";
+import { LoginForm } from "@/features/auth";
+import { VInput, VButton, VLoader, VCard } from "@/shared/ui";
 
 const primaryValue = ref("");
 const secondaryValue = ref("");
@@ -12,8 +12,8 @@ const minimalValue = ref("");
 <template>
   <div class="min-h-screen bg-gray-900 flex items-center justify-center p-10">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
-      <!-- First Card with LoginForm-->
-      <Card>
+      <!-- First VCard with LoginForm-->
+      <VCard>
         <template #header>
           <div class="flex justify-between w-full text-white">
             <!-- Logo -->
@@ -38,7 +38,7 @@ const minimalValue = ref("");
           </div>
         </template>
         <template #content>
-          <VLoginform />
+          <LoginForm />
         </template>
         <template #footer>
           <!-- Logo -->
@@ -49,15 +49,15 @@ const minimalValue = ref("");
             LOGO-footer
           </a>
         </template>
-      </Card>
+      </VCard>
 
-      <Card
+      <VCard
         :header-text="'My Header Text'"
       />
 
-      <!-- Second Card with Inputs-->
-      <Card
-        :header-text="'Card with input'"
+      <!-- Second VCard with Inputs-->
+      <VCard
+        :header-text="'VCard with input'"
         :footer-text="'Copyright first'"
       >
         <template #content>
@@ -79,11 +79,11 @@ const minimalValue = ref("");
             placeholder="Minimal clean input"
           />
         </template>
-      </Card>
+      </VCard>
 
-      <!-- Third Card with button-->
-      <Card
-        :header-text="'Card with Button'"
+      <!-- Third VCard with button-->
+      <VCard
+        :header-text="'VCard with Button'"
         :footer-text="'Copyright Button'"
       >
         <template #content>
@@ -94,10 +94,10 @@ const minimalValue = ref("");
             icon="heart"
           />
         </template>
-      </Card>
+      </VCard>
 
-      <!-- Fourth Card with Loader-->
-      <Card
+      <!-- Fourth VCard with Loader-->
+      <VCard
         :header-text="'Card with Loader'"
         :footer-text="'Copyright Loader'"
       >
@@ -109,7 +109,7 @@ const minimalValue = ref("");
             <VLoader />
           </div>
         </template>
-      </Card>
+      </VCard>
     </div>
   </div>
 </template>
