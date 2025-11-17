@@ -9,3 +9,26 @@
    ```bash
    pnpm dev
    ```
+
+   src/
+├── app/
+├── featured/
+│   └── auth/
+|      └── components/
+|         └── LoginForm.vue
+├── pages/
+│   └── Home/
+|      └── components/
+|      └── index.ts           # Main page
+├── shared/
+│   └── ui/
+|      └── common/
+│          └── VButton.vue
+|          └── VCard.vue
+|          └── VInput.vue
+|          └── VLoader.vue
+├── stores/
+├── types/
+├── widgets/
+
+```
