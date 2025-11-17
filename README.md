@@ -10,6 +10,7 @@
    pnpm dev
    ```
 
+```bash
    src/
 ├── app/
 ├── featured/
