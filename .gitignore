@@ -155,10 +155,6 @@ Desktop.ini
 *.tmp
 *.temp
 
-# Build outputs
-dist/
-build/
-
 # Test coverage
 coverage/
 .nyc_output/
