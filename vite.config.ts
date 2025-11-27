@@ -5,7 +5,8 @@ import {fileURLToPath} from "url";
 export default ({mode}: any) => {
     process.env = {...process.env, ...loadEnv(mode, process.cwd())};
 
-    return defineConfig({
+  return defineConfig({
+        base: "/CardsComponents_vue/",
         plugins: [vue()],
         resolve: {
             alias: {
